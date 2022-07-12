@@ -27,6 +27,6 @@ describe('1 - Teste a função fetchProducts', () => {
 
   test("Testa se, quando a função fetchProducts NÃO recebe parâmetro, a mensagem 'You must provide an url' é retornada", async () => {
     const expected = await fetchProducts();
-    expect(expected).toBe('You must provide an url')
+    expect(expected).toEqual(new Error('You must provide an url'))
   });
 });
