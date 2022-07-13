@@ -19,8 +19,6 @@ const reduceDataItem = async (id) => { // Promise!
     name: data.title,
     salePrice: data.price,
   };
-
-  // console.log(obj);
 };
 
 const createProductImageElement = (imageSource) => {
