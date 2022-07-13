@@ -65,11 +65,28 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   return li;
 };
 
+const addListnersToItems = (element) => {
+  const arr = Array.from(element.children); // O método Array.from() é utilizado para criar um novo array a partir de um array-like ou um objetos iterável. 
+  arr.forEach((e) => e.addEventListener('click', cartItemClickListener));
+};
+
+const getCartSaveToLocalStorage = (element) => {
+  const tag = element;
+  tag.innerHTML = getSavedCartItems();
+  addListnersToItems(wayToCart);
+};
+
+const removeLocalStorage = () => {
+  localStorage.removeItem('cartItems');
+};
+
 const addItemToCart = async (event) => {
   const currentId = event.target.parentElement.firstChild.innerText;
   const dataItem = await reduceDataItem(currentId);
 
   wayToCart.appendChild(createCartItemElement(dataItem));
+  removeLocalStorage();
+  saveCartItems(wayToCart);
 }; 
 
 reduceDataResults().then((response) => {
@@ -87,4 +104,6 @@ const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').inn
 
 const wayToAddBtns = document.getElementsByClassName('item__add');
 
-window.onload = () => {};
+window.onload = () => {
+  getCartSaveToLocalStorage(wayToCart);
+};
