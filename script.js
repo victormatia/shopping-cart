@@ -1,4 +1,4 @@
-const reduceData = async () => { // Promise!
+const reduceDataResults = async () => { // Promise!
   const data = await fetchProducts('computador');
   const { results } = data;
   return results.reduce((acc, result) => {
@@ -9,6 +9,18 @@ const reduceData = async () => { // Promise!
     });
     return acc;
   }, []);
+};
+
+const reduceDataItem = async (id) => { // Promise!
+  const data = await fetchItem(id);
+  
+  return {
+    sku: data.id,
+    name: data.title,
+    salePrice: data.price,
+  };
+
+  // console.log(obj);
 };
 
 const createProductImageElement = (imageSource) => {
@@ -37,16 +49,6 @@ const createProductItemElement = ({ sku, name, image }) => { // id, site_id e th
   return section;
 };
 
-reduceData().then((response) => {
-  const wayToItems = document.querySelector('.items');
-
-  response.forEach((e) => {
-    wayToItems.appendChild(createProductItemElement(e));
-  });
-});
-
-const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
-
 const cartItemClickListener = (event) => {
   // coloque seu código aqui
 };
@@ -58,5 +60,27 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
+
+const addItemToCart = async (event) => {
+  const wayToCart = document.querySelector('.cart__items');
+  const currentId = event.target.parentElement.firstChild.innerText;
+  const dataItem = await reduceDataItem(currentId);
+
+  wayToCart.appendChild(createCartItemElement(dataItem));
+}; 
+
+reduceDataResults().then((response) => {
+  const wayToItems = document.querySelector('.items');
+
+  response.forEach((e) => {
+    const currentElement = createProductItemElement(e);
+    currentElement.addEventListener('click', addItemToCart);
+    wayToItems.appendChild(currentElement);
+  });
+});
+
+const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
+
+const wayToAddBtns = document.getElementsByClassName('item__add');
 
 window.onload = () => {};
