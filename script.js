@@ -1,7 +1,10 @@
+// ways ---------------------------------------------------------
+
 const wayToTotalPrice = document.querySelector('.total-price');
 const wayToCart = document.querySelector('.cart__items');
 // const wayToAddBtns = document.getElementsByClassName('item__add');
 const wayToItems = document.querySelector('.items');
+const wayToEmptyCartBtn = document.querySelector('.empty-cart');
 
 // --------------------------------------------------------------
 
@@ -143,6 +146,17 @@ reduceDataResults().then((response) => {
 });
 
 // const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
+
+const emptyCart = () => {
+  const cartItems = Array.from(wayToCart.children);
+  cartItems.forEach((item) => {
+    wayToCart.removeChild(item);
+  });
+
+  removeLocalStorage();
+};
+
+wayToEmptyCartBtn.addEventListener('click', emptyCart);
 
 window.onload = () => {
   getCartSaveToLocalStorage(wayToCart);
