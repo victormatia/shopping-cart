@@ -164,7 +164,7 @@ body {
   margin-bottom: 10px;
 }
 
-#currency, .total-price {
+#currency , .total-price {
   color: rgb(34, 34, 34);
   font-size: 20px;
   font-weight: 600;
