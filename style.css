@@ -154,3 +154,18 @@ body {
   border: 2px solid rgb(5, 52, 219);
   background-color: rgb(249, 249, 246);
 }
+
+#price__area {
+  background-color: rgb(195, 195, 195);
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+#currency, .total-price {
+  color: rgb(34, 34, 34);
+  font-size: 20px;
+  font-weight: 600;
+}

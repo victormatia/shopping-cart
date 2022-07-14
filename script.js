@@ -1,3 +1,9 @@
+const wayToTotalPrice = document.querySelector('.total-price');
+const wayToCart = document.querySelector('.cart__items');
+const wayToAddBtns = document.getElementsByClassName('item__add');
+
+// --------------------------------------------------------------
+
 const reduceDataResults = async () => { // Promise!
   const data = await fetchProducts('computador');
   const { results } = data;
@@ -47,14 +53,27 @@ const createProductItemElement = ({ sku, name, image }) => { // id, site_id e th
   return section;
 };
 
-const wayToCart = document.querySelector('.cart__items');
+const subPriceItems = (price) => {
+  const currentAmount = parseFloat(wayToTotalPrice.innerText);
+  const adjust = currentAmount - price;
+   wayToTotalPrice.innerText = adjust;
+};
 
 const removeItemToCart = (event) => {
   wayToCart.removeChild(event.target);
+  localStorage.cartItems = wayToCart.innerHTML;
+};
+
+const getPriceToRemovedItem = (event) => {
+  const content = event.target.innerText;
+  const indexOf$ = content.indexOf('$');
+  const price = parseFloat(content.substring((indexOf$ + 1), content.length));
+  return price;
 };
 
 const cartItemClickListener = (event) => {
   removeItemToCart(event);
+  subPriceItems(getPriceToRemovedItem(event));
 };
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -80,9 +99,17 @@ const removeLocalStorage = () => {
   localStorage.removeItem('cartItems');
 };
 
+const sumPriceItems = (price) => {
+  const currentAmount = parseFloat(wayToTotalPrice.innerText);
+  const adjust = currentAmount + price;
+   wayToTotalPrice.innerText = adjust;
+};
+
 const addItemToCart = async (event) => {
   const currentId = event.target.parentElement.firstChild.innerText;
   const dataItem = await reduceDataItem(currentId);
+  const price = dataItem.salePrice;
+  sumPriceItems(price);
 
   wayToCart.appendChild(createCartItemElement(dataItem));
   removeLocalStorage();
@@ -101,8 +128,6 @@ reduceDataResults().then((response) => {
 });
 
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
-
-const wayToAddBtns = document.getElementsByClassName('item__add');
 
 window.onload = () => {
   getCartSaveToLocalStorage(wayToCart);
