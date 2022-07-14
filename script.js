@@ -1,6 +1,7 @@
 const wayToTotalPrice = document.querySelector('.total-price');
 const wayToCart = document.querySelector('.cart__items');
-const wayToAddBtns = document.getElementsByClassName('item__add');
+// const wayToAddBtns = document.getElementsByClassName('item__add');
+const wayToItems = document.querySelector('.items');
 
 // --------------------------------------------------------------
 
@@ -56,7 +57,7 @@ const createProductItemElement = ({ sku, name, image }) => { // id, site_id e th
 const subPriceItems = (price) => {
   const currentAmount = parseFloat(wayToTotalPrice.innerText);
   const adjust = currentAmount - price;
-   wayToTotalPrice.innerText = adjust;
+  wayToTotalPrice.innerText = adjust;
 };
 
 const removeItemToCart = (event) => {
@@ -114,10 +115,24 @@ const addItemToCart = async (event) => {
   wayToCart.appendChild(createCartItemElement(dataItem));
   removeLocalStorage();
   saveCartItems(wayToCart);
-}; 
+};
+
+const createLoading = () => {
+  const createTagP = document.createElement('p');
+  createTagP.setAttribute('class', 'loading');
+  createTagP.innerText = 'Carregando...';
+  wayToItems.appendChild(createTagP);
+};
+
+createLoading();
+
+const removeLoading = () => {
+  const wayToLoading = document.querySelector('.loading');
+  wayToItems.removeChild(wayToLoading);
+};
 
 reduceDataResults().then((response) => {
-  const wayToItems = document.querySelector('.items');
+  removeLoading();
 
   response.forEach((e) => {
     const currentElement = createProductItemElement(e);
@@ -127,7 +142,7 @@ reduceDataResults().then((response) => {
   });
 });
 
-const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
+// const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
 window.onload = () => {
   getCartSaveToLocalStorage(wayToCart);
