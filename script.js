@@ -117,7 +117,7 @@ const addItemToCart = async (event) => {
 
   wayToCart.appendChild(createCartItemElement(dataItem));
   removeLocalStorage();
-  saveCartItems(wayToCart);
+  saveCartItems(wayToCart.innerHTML);
 };
 
 const createLoading = () => {

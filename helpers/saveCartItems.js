@@ -1,6 +1,5 @@
 const saveCartItems = (ol) => {
-  const content = ol.innerHTML;
-  localStorage.setItem('cartItems', content);
+  localStorage.setItem('cartItems', ol);
 };
 
 if (typeof module !== 'undefined') {
